@@ -84,6 +84,9 @@ nav a:hover{color:var(--go)}
 .ttag{position:absolute;top:10px;right:10px;font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .5rem;border-radius:2px;z-index:2;background:rgba(10,10,10,.75);border:1px solid var(--br);color:var(--mu)}
 .olay{position:absolute;inset:0;background:rgba(10,10,10,.65);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mu);z-index:3}
 .promo-pct-badge{position:absolute;bottom:10px;left:10px;background:var(--re);color:#fff;font-size:.85rem;font-weight:800;padding:.3rem .6rem;border-radius:3px;z-index:4;box-shadow:0 2px 8px rgba(192,57,43,.4)}
+.fav-heart{position:absolute;bottom:10px;right:10px;background:rgba(10,10,10,.6);border:1px solid var(--br);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;z-index:4;transition:transform .15s,background .2s}
+.fav-heart:hover{transform:scale(1.12);background:rgba(10,10,10,.85)}
+.fav-heart.active{border-color:var(--re)}
 .pbdy{padding:1rem;flex:1;display:flex;flex-direction:column;gap:.4rem}
 .pref{font-size:.68rem;color:var(--mu);letter-spacing:.1em;text-transform:uppercase}
 .pnam{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;line-height:1.3;color:var(--wh)}
@@ -392,9 +395,26 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
     <div class="mfld" id="colfield" style="display:none"><label>Cor</label><select id="mcolor" onchange="updateWLink()"></select></div>
     <div class="mfld"><label>Quantidade</label><input type="number" id="mqty" value="1" min="1" max="99" oninput="updateWLink()"/></div>
     <div class="mprc" id="mprice"></div>
-    <a class="bwlg" id="mwlink" href="#" target="_blank" onclick="trackClick()">
+    <button class="bwlg" id="mgotointerest" onclick="goToInterestForm()">
       <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Comprar pelo WhatsApp
+      Tenho Interesse
+    </button>
+  </div>
+</div>
+
+<!-- INTEREST CAPTURE MODAL (name + whatsapp) -->
+<div class="movl" id="interestmodal" onclick="closeInterestOut(event)">
+  <div class="mdlg">
+    <button class="mxbt" onclick="closeInterestModal()">×</button>
+    <div style="font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--go);margin-bottom:.3rem">Quase lá!</div>
+    <h3>Para qual conta de WhatsApp falamos com você?</h3>
+    <div class="mref">Levamos isso direto ao nosso atendimento — sem spam.</div>
+    <div class="mfld"><label>Seu nome</label><input type="text" id="ic-name" placeholder="Ex: Maria Silva"/></div>
+    <div class="mfld"><label>Seu WhatsApp (com DDD)</label><input type="text" id="ic-wpp" placeholder="Ex: 79 99999-9999"/></div>
+    <div class="lerr" id="ic-err">Preencha nome e WhatsApp para continuar.</div>
+    <a class="bwlg" id="ic-confirm" href="#" target="_blank" onclick="confirmInterest()">
+      <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Confirmar e ir para o WhatsApp
     </a>
   </div>
 </div>
@@ -405,7 +425,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
     <div class="lbox">
       <div style="font-size:2rem;margin-bottom:.5rem">🔐</div>
       <h2>Painel Admin</h2><p>LUXOS Imports — Área restrita</p>
-      <div class="lfld"><label>Usuário</label><input type="text" id="luser" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+      <div class="lfld"><label>E-mail</label><input type="email" id="luser" placeholder="seuemail@exemplo.com" onkeydown="if(event.key==='Enter')doLogin()"/></div>
       <div class="lfld"><label>Senha</label><input type="password" id="lpass" placeholder="••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
       <div class="lerr" id="lerr">Usuário ou senha incorretos.</div>
       <button class="blogin" onclick="doLogin()">Entrar</button>
@@ -419,6 +439,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
       <div class="anav">
         <button class="anbt active" onclick="adminTab('dash',this)">📊 Dashboard</button>
         <button class="anbt" onclick="adminTab('prods',this)">📦 Produtos</button>
+        <button class="anbt" onclick="adminTab('opp',this)">🎯 Oportunidades</button>
         <button class="anbt" onclick="adminTab('report',this)">📈 Relatório</button>
         <button class="anbt" onclick="adminTab('ints',this)">💬 Interesses</button>
       </div>
@@ -445,6 +466,32 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
           <button class="badd" onclick="openProdModal()">＋ Novo Produto</button>
         </div>
         <div class="pmgd" id="pmgrid"></div>
+      </div>
+
+      <!-- OPPORTUNITIES -->
+      <div class="asct" id="tab-opp">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem">
+          <h2 style="font-family:'Playfair Display',serif;font-size:1.3rem">🎯 Central de Oportunidades</h2>
+        </div>
+        <div class="period-sel">
+          <span>Filtrar por produto:</span>
+          <select id="opp-prod-filter" onchange="renderOpportunities()" style="background:var(--sf);border:1px solid var(--br);color:var(--wh);padding:.4rem .8rem;border-radius:2px;font-family:'Inter',sans-serif;font-size:.78rem">
+            <option value="">Todos os produtos</option>
+          </select>
+          <span style="margin-left:1rem">Período:</span>
+          <button class="pbtn active" onclick="setOppPeriod(7,this)">7 dias</button>
+          <button class="pbtn" onclick="setOppPeriod(30,this)">30 dias</button>
+          <button class="pbtn" onclick="setOppPeriod(0,this)">Tudo</button>
+        </div>
+        <div class="report-grid" id="opp-summary"></div>
+        <div class="atbw">
+          <h3>❤️ Produtos Mais Favoritados</h3>
+          <div id="opp-favorites"></div>
+        </div>
+        <div class="atbw">
+          <h3>💬 Clientes Interessados</h3>
+          <div id="opp-customers"></div>
+        </div>
       </div>
 
       <!-- REPORT -->
@@ -538,20 +585,20 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 // CONFIG
 // ══════════════════════════════════════════
 const WPP_NUM    = '5579998346040';
-const ADM_USR    = 'admin';
-const ADM_PWD    = 'lux2025';
 const SB_URL     = 'https://ubpxspjedwzpxepfsypo.supabase.co';
 const SB_KEY     = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicHhzcGplZHd6cHhlcGZzeXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4MjE3NDYsImV4cCI6MjA5NzM5Nzc0Nn0.tiSUT07rqHBsq1k2o4npR2fk-NMpr0kibVwmARRON7E';
 const SB_HDR     = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
 const BUCKET     = 'product-images';
 const STORAGE_URL= SB_URL + '/storage/v1';
 const REST_URL   = SB_URL + '/rest/v1';
+const AUTH_URL   = SB_URL + '/auth/v1';
 
 // ══════════════════════════════════════════
 // SUPABASE HELPERS
 // ══════════════════════════════════════════
 async function sbFetch(path, opts={}) {
-  const res = await fetch(REST_URL + path, { headers: SB_HDR, ...opts });
+  const hdr = authToken ? { ...SB_HDR, 'Authorization':'Bearer '+authToken } : SB_HDR;
+  const res = await fetch(REST_URL + path, { headers: hdr, ...opts });
   if (!res.ok) { const e = await res.text(); throw new Error(e); }
   const ct = res.headers.get('content-type')||'';
   return ct.includes('json') ? res.json() : res.text();
@@ -725,6 +772,7 @@ async function renderProds(){
     grid.innerHTML='<div class="loading" style="color:var(--re)">Erro ao carregar produtos.</div>';
     return;
   }
+  let favSet = await getMyFavoriteIds();
   let list=[...allProds];
   if(!AF.cat.has('todos')) list=list.filter(p=>AF.cat.has(p.cat));
   if(AF.st.has('promo'))   list=list.filter(p=>p.badge==='promo'||(p.old_price&&Number(p.old_price)>0));
@@ -741,6 +789,8 @@ async function renderProds(){
     const tH=p.tipo?'<span class="ttag">'+(TL[p.tipo]||'')+'</span>':'';
     const oH=p.stock===0?'<div class="olay">Sem Estoque</div>':'';
     const pctH=op?'<span class="promo-pct-badge">-'+pct+'%</span>':'';
+    const isFav = favSet.has(p.id);
+    const favH = '<button class="fav-heart'+(isFav?' active':'')+'" onclick="event.stopPropagation();toggleFavorite(\''+p.id+'\',\''+p.name+'\',this)" title="Favoritar">'+(isFav?'❤️':'🤍')+'</button>';
     const imgH=p.img_url
       ?'<img src="'+p.img_url+'" alt="'+p.name+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'+'<span style="display:none;font-size:3.5rem">'+(p.emoji||'💎')+'</span>'
       :'<span style="font-size:3.5rem">'+(p.emoji||'💎')+'</span>';
@@ -752,9 +802,9 @@ async function renderProds(){
     const pH=op?'<span class="pcur">'+fmt(p.price)+'</span><span class="pold">'+fmt(op)+'</span>':'<span class="pcur">'+fmt(p.price)+'</span>';
     const dis=p.stock===0;
     return '<div class="pcard'+(dis?' dis':'')+'" onclick="'+(dis?'':'openBuy(\''+p.id+'\')')+'">'+
-      '<div class="pimg">'+imgH+bH+tH+oH+pctH+'</div>'+
+      '<div class="pimg">'+imgH+bH+tH+oH+pctH+favH+'</div>'+
       '<div class="pbdy"><div class="pref">'+p.code+'</div><div class="pnam">'+p.name+'</div>'+stkLabel(p.stock)+timerH+'<div class="prow">'+pH+'</div></div>'+
-      '<a class="bwpp" href="'+wppLink(p,(p.colors||['Dourado'])[0],1)+'" target="_blank" onclick="event.stopPropagation();logClick(\''+p.id+'\',\''+p.name+'\','+p.price+',\''+(p.colors||['Dourado'])[0]+'\',1)">'+WSVG+' Comprar</a>'+
+      '<button class="bwpp" onclick="event.stopPropagation();openBuy(\''+p.id+'\')">'+WSVG+' Tenho Interesse</button>'+
     '</div>';
   }).join('');
   startTimers();
@@ -791,13 +841,14 @@ function startTimers(){
 // ══════════════════════════════════════════
 // WPP LINK
 // ══════════════════════════════════════════
-function wppLink(p,col,qty){
-  const msg='Olá! Tenho interesse no produto:\n\n*Produto:* '+p.name+'\n*Código:* '+p.code+'\n*Cor:* '+(col||'Dourado')+'\n*Preço:* '+fmt(p.price)+'\n*Quantidade:* '+qty+'\n\nGostaria de mais informações sobre disponibilidade e formas de pagamento. 😊';
+function wppLink(p,col,qty,custName){
+  const greet = custName ? 'Olá, me chamo '+custName+'! ' : 'Olá! ';
+  const msg=greet+'Tenho interesse no produto:\n\n*Produto:* '+p.name+'\n*Código:* '+p.code+'\n*Cor:* '+(col||'Dourado')+'\n*Preço:* '+fmt(p.price)+'\n*Quantidade:* '+qty+'\n\nGostaria de mais informações sobre disponibilidade e formas de pagamento. 😊';
   return 'https://wa.me/'+WPP_NUM+'?text='+encodeURIComponent(msg);
 }
 
 // ══════════════════════════════════════════
-// BUY MODAL
+// BUY MODAL → step 1: pick qty/color, step 2: capture name+whatsapp
 // ══════════════════════════════════════════
 let activePid=null, activeProd=null;
 
@@ -814,49 +865,149 @@ function openBuy(id){
   const cols=activeProd.colors||['Dourado'];
   if(cols.length>1){cf.style.display='block';cs.innerHTML=cols.map(c=>'<option>'+c+'</option>').join('');}
   else{cf.style.display='none';cs.innerHTML='<option>'+cols[0]+'</option>';}
-  updateWLink();
   document.getElementById('buymodal').classList.add('open');
   document.body.style.overflow='hidden';
 }
-function updateWLink(){
-  if(!activeProd) return;
-  const col=document.getElementById('mcolor').value||(activeProd.colors||['Dourado'])[0];
-  const qty=parseInt(document.getElementById('mqty').value)||1;
-  document.getElementById('mwlink').href=wppLink(activeProd,col,qty);
-}
 function closeBuy(){document.getElementById('buymodal').classList.remove('open');document.body.style.overflow='';}
 function closeBuyOut(e){if(e.target===document.getElementById('buymodal'))closeBuy();}
-function trackClick(){
-  if(!activeProd) return;
+
+function goToInterestForm(){
+  closeBuy();
+  // Pre-fill remembered customer info if we have it
+  const saved = JSON.parse(localStorage.getItem('lux_customer')||'null');
+  document.getElementById('ic-name').value = saved?.name || '';
+  document.getElementById('ic-wpp').value  = saved?.whatsapp || '';
+  document.getElementById('ic-err').style.display='none';
+  document.getElementById('interestmodal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeInterestModal(){document.getElementById('interestmodal').classList.remove('open');document.body.style.overflow='';}
+function closeInterestOut(e){if(e.target===document.getElementById('interestmodal'))closeInterestModal();}
+
+async function confirmInterest(e){
+  if(e) e.preventDefault();
+  const name = document.getElementById('ic-name').value.trim();
+  const wpp  = document.getElementById('ic-wpp').value.trim();
+  if(!name || wpp.replace(/\D/g,'').length<8){
+    document.getElementById('ic-err').style.display='block';
+    return;
+  }
+  document.getElementById('ic-err').style.display='none';
+  // remember on this device for next time
+  localStorage.setItem('lux_customer', JSON.stringify({name,whatsapp:wpp}));
+
   const col=document.getElementById('mcolor').value||(activeProd.colors||['Dourado'])[0];
   const qty=parseInt(document.getElementById('mqty').value)||1;
-  logClick(activeProd.id,activeProd.name,activeProd.price,col,qty);
+  const link=wppLink(activeProd,col,qty,name);
+
+  await logClick(activeProd.id,activeProd.name,activeProd.price,col,qty,name,wpp);
+  closeInterestModal();
+  window.open(link,'_blank');
 }
 
 // ══════════════════════════════════════════
-// INTEREST TRACKING
+// INTEREST TRACKING (saves customer + interest)
 // ══════════════════════════════════════════
-async function logClick(pid,name,price,color,qty){
-  try{ await insertInterest({product_id:pid,product_name:name,product_code:name,price,color,qty}); }
-  catch(e){ console.warn('interest log:',e); }
+async function logClick(pid,name,price,color,qty,custName,custWpp){
+  try{
+    let customerId=null;
+    if(custName && custWpp){
+      const cust = await sbFetch('/customers',{method:'POST',body:JSON.stringify({name:custName,whatsapp:custWpp})});
+      customerId = Array.isArray(cust) ? cust[0]?.id : cust?.id;
+    }
+    await insertInterest({
+      product_id:pid, product_name:name, product_code:name, price, color, qty,
+      customer_id:customerId, customer_name:custName||null, customer_whatsapp:custWpp||null
+    });
+  }catch(e){ console.warn('interest log:',e); }
 }
 
 // ══════════════════════════════════════════
-// ADMIN
+// FAVORITES (anonymous visitor id stored in browser)
 // ══════════════════════════════════════════
+function getVisitorId(){
+  let vid = localStorage.getItem('lux_visitor_id');
+  if(!vid){
+    vid = 'v_'+Date.now()+'_'+Math.random().toString(36).slice(2,10);
+    localStorage.setItem('lux_visitor_id', vid);
+  }
+  return vid;
+}
+
+async function getMyFavoriteIds(){
+  try{
+    const vid = getVisitorId();
+    const rows = await sbFetch('/favorites?visitor_id=eq.'+encodeURIComponent(vid)+'&select=product_id');
+    return new Set(rows.map(r=>r.product_id));
+  }catch(e){ return new Set(); }
+}
+
+async function toggleFavorite(pid,pname,btn){
+  const vid = getVisitorId();
+  const isActive = btn.classList.contains('active');
+  try{
+    if(isActive){
+      await sbFetch('/favorites?visitor_id=eq.'+encodeURIComponent(vid)+'&product_id=eq.'+pid,{method:'DELETE'});
+      btn.classList.remove('active'); btn.textContent='🤍';
+    } else {
+      await sbFetch('/favorites',{method:'POST',body:JSON.stringify({visitor_id:vid,product_id:pid,product_name:pname})});
+      btn.classList.add('active'); btn.textContent='❤️';
+    }
+  }catch(e){ console.warn('favorite toggle:',e); }
+}
+
+// ══════════════════════════════════════════
+// ADMIN — Supabase Auth (real login)
+// ══════════════════════════════════════════
+let authToken = null;
+
 function openAdmin(){
   document.getElementById('adpn').classList.add('open');
   document.getElementById('sfront').style.display='none';
   document.body.style.overflow='auto'; closeBuy();
-  if(sessionStorage.getItem('lux_auth')) showAdminDash();
+  const saved = JSON.parse(sessionStorage.getItem('lux_session')||'null');
+  if(saved && saved.access_token){ authToken = saved.access_token; showAdminDash(); }
 }
 function closeAdmin(){document.getElementById('adpn').classList.remove('open');document.getElementById('sfront').style.display='';}
-function doLogin(){
-  const u=document.getElementById('luser').value.trim(),p=document.getElementById('lpass').value;
-  if(u===ADM_USR&&p===ADM_PWD){sessionStorage.setItem('lux_auth','1');showAdminDash();}
-  else{document.getElementById('lerr').style.display='block';document.getElementById('lpass').value='';}
+
+async function doLogin(){
+  const email=document.getElementById('luser').value.trim();
+  const pass =document.getElementById('lpass').value;
+  const errEl=document.getElementById('lerr');
+  const btn=document.querySelector('.blogin');
+  errEl.style.display='none';
+  if(!email||!pass){ errEl.textContent='Preencha e-mail e senha.'; errEl.style.display='block'; return; }
+  btn.textContent='Entrando…'; btn.disabled=true;
+  try{
+    const res = await fetch(AUTH_URL+'/token?grant_type=password',{
+      method:'POST',
+      headers:{ 'apikey':SB_KEY, 'Content-Type':'application/json' },
+      body: JSON.stringify({ email, password: pass })
+    });
+    const data = await res.json();
+    if(!res.ok || !data.access_token){
+      errEl.textContent = data.error_description || data.msg || 'E-mail ou senha incorretos.';
+      errEl.style.display='block';
+      document.getElementById('lpass').value='';
+      return;
+    }
+    authToken = data.access_token;
+    sessionStorage.setItem('lux_session', JSON.stringify({ access_token:data.access_token, refresh_token:data.refresh_token, email }));
+    showAdminDash();
+  }catch(e){
+    errEl.textContent='Erro de conexão. Tente novamente.'; errEl.style.display='block';
+  }finally{
+    btn.textContent='Entrar'; btn.disabled=false;
+  }
 }
-function doLogout(){sessionStorage.removeItem('lux_auth');document.getElementById('adminwrap').classList.remove('open');document.getElementById('adminlogin').style.display='flex';}
+
+function doLogout(){
+  sessionStorage.removeItem('lux_session');
+  authToken=null;
+  document.getElementById('adminwrap').classList.remove('open');
+  document.getElementById('adminlogin').style.display='flex';
+  document.getElementById('luser').value=''; document.getElementById('lpass').value='';
+}
 function showAdminDash(){document.getElementById('adminlogin').style.display='none';document.getElementById('adminwrap').classList.add('open');renderDash();renderPmGrid();}
 
 function adminTab(name,btn){
@@ -865,6 +1016,7 @@ function adminTab(name,btn){
   document.getElementById('tab-'+name).classList.add('active'); btn.classList.add('active');
   if(name==='dash')   renderDash();
   if(name==='prods')  renderPmGrid();
+  if(name==='opp')    renderOpportunities();
   if(name==='report') renderReport(activePeriod);
   if(name==='ints')   renderAllInts();
 }
@@ -898,11 +1050,61 @@ async function renderDash(){
     '</tbody></table></div></div>';
 }
 
+// ── CENTRAL DE OPORTUNIDADES ──
+let oppPeriod=7;
+function setOppPeriod(d,btn){
+  oppPeriod=d;
+  document.querySelectorAll('#tab-opp .pbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderOpportunities();
+}
+
+async function getFavoriteCounts(){
+  const rows = await sbFetch('/favorites?select=product_id,product_name');
+  const counts={};
+  rows.forEach(r=>{ counts[r.product_id]=counts[r.product_id]||{name:r.product_name,count:0}; counts[r.product_id].count++; });
+  return Object.entries(counts).map(([id,v])=>({product_id:id,name:v.name,count:v.count})).sort((a,b)=>b.count-a.count);
+}
+
+async function renderOpportunities(){
+  const prods = await getProds(); allProds=prods;
+  const ints  = await getInterests(oppPeriod);
+  const favs  = await getFavoriteCounts();
+
+  // populate product filter dropdown once
+  const sel = document.getElementById('opp-prod-filter');
+  if(sel.options.length<=1){
+    sel.innerHTML='<option value="">Todos os produtos</option>'+prods.map(p=>'<option value="'+p.id+'">'+p.name+'</option>').join('');
+  }
+  const filterPid = sel.value;
+
+  const intsFiltered = filterPid ? ints.filter(i=>i.product_id===filterPid) : ints;
+  const withContact   = intsFiltered.filter(i=>i.customer_name && i.customer_whatsapp);
+
+  document.getElementById('opp-summary').innerHTML=
+    '<div class="rep-card"><div class="rl">Total de Favoritos</div><div class="rv gold">'+favs.reduce((a,f)=>a+f.count,0)+'</div><div class="rs">em todos os produtos</div></div>'+
+    '<div class="rep-card"><div class="rl">Interesses no Período</div><div class="rv green">'+intsFiltered.length+'</div><div class="rs">cliques registrados</div></div>'+
+    '<div class="rep-card"><div class="rl">Clientes com Contato</div><div class="rv">'+withContact.length+'</div><div class="rs">nome + WhatsApp capturados</div></div>'+
+    '<div class="rep-card"><div class="rl">Produto Mais Favoritado</div><div class="rv" style="font-size:1rem;color:var(--go)">'+(favs[0]?favs[0].name:'—')+'</div><div class="rs">'+(favs[0]?favs[0].count+' favoritos':'sem dados')+'</div></div>';
+
+  document.getElementById('opp-favorites').innerHTML = favs.length
+    ? '<table><thead><tr><th>Produto</th><th>Favoritos</th></tr></thead><tbody>'+
+      favs.slice(0,15).map(f=>'<tr><td>'+f.name+'</td><td style="color:var(--re);font-weight:700">❤️ '+f.count+'</td></tr>').join('')+
+      '</tbody></table>'
+    : '<p style="padding:1.5rem;color:var(--mu);font-size:.82rem">Nenhum favorito registrado ainda.</p>';
+
+  document.getElementById('opp-customers').innerHTML = withContact.length
+    ? '<table><thead><tr><th>Cliente</th><th>WhatsApp</th><th>Produto</th><th>Data</th><th>Ação</th></tr></thead><tbody>'+
+      withContact.map(i=>'<tr><td>'+i.customer_name+'</td><td style="color:var(--gr)">'+i.customer_whatsapp+'</td><td>'+i.product_name+'</td><td style="color:var(--mu);font-size:.75rem">'+new Date(i.created_at).toLocaleString('pt-BR')+'</td><td><a href="https://wa.me/'+i.customer_whatsapp.replace(/\D/g,'')+'" target="_blank" style="color:var(--go);font-size:.75rem">Contatar →</a></td></tr>').join('')+
+      '</tbody></table>'
+    : '<p style="padding:1.5rem;color:var(--mu);font-size:.82rem">Nenhum cliente identificado neste período/produto.</p>';
+}
+
 // ── REPORT ──
 let activePeriod=7;
 function setPeriod(d,btn){
   activePeriod=d;
-  document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#tab-report .pbtn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderReport(d);
 }
