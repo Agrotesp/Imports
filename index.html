@@ -204,6 +204,33 @@ footer a:hover{color:var(--go)}
 .chart-card{padding-bottom:1rem}
 .chart-wrap{position:relative;height:240px;padding:1rem 1.5rem}
 @media(max-width:900px){.charts-row{grid-template-columns:1fr}}
+
+/* SALES (Vendas) */
+.sales-kanban-tabs{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.skbtn{background:var(--sf);border:1px solid var(--br);color:var(--mu);padding:.6rem 1.1rem;border-radius:4px;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.5rem}
+.skbtn:hover{border-color:var(--gd);color:var(--wh)}
+.skbtn.active{border-color:var(--go);color:var(--go);background:rgba(201,168,76,.08)}
+.skcount{background:rgba(255,255,255,.08);border-radius:10px;padding:.05rem .5rem;font-size:.72rem;font-weight:700}
+.skbtn.active .skcount{background:var(--go);color:var(--bk)}
+.sale-card{background:var(--cd);border:1px solid var(--br);border-radius:6px;padding:1.1rem 1.3rem;margin-bottom:.8rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap}
+.sale-info{flex:1;min-width:220px}
+.sale-product{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;margin-bottom:.3rem}
+.sale-meta{font-size:.78rem;color:var(--mu);line-height:1.7}
+.sale-meta b{color:var(--wh)}
+.sale-meta .cust{color:var(--go)}
+.sale-actions{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.sbtn{padding:.5rem 1rem;border-radius:3px;border:1px solid var(--br);background:transparent;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.sbtn.sold{border-color:var(--gr);color:var(--gr)}
+.sbtn.sold:hover{background:rgba(39,174,96,.12)}
+.sbtn.unsold{border-color:var(--re);color:var(--re)}
+.sbtn.unsold:hover{background:rgba(192,57,43,.12)}
+.sbtn.undo{border-color:var(--mu);color:var(--mu)}
+.sbtn.undo:hover{border-color:var(--go);color:var(--go)}
+.sale-status-tag{font-size:.68rem;font-weight:700;padding:.25rem .6rem;border-radius:20px;text-transform:uppercase;letter-spacing:.04em}
+.sale-status-tag.negociacao{background:rgba(201,168,76,.15);color:var(--go)}
+.sale-status-tag.vendido{background:rgba(39,174,96,.15);color:var(--gr)}
+.sale-status-tag.nao_vendido{background:rgba(192,57,43,.15);color:var(--re)}
+.sales-empty{text-align:center;padding:3rem;color:var(--mu);font-size:.85rem}
 .dcard{background:var(--cd);border:1px solid var(--br);border-radius:6px;padding:1.5rem}
 .dcard .dlbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--mu);margin-bottom:.5rem}
 .dcard .dval{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--go);line-height:1}
@@ -462,6 +489,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
         <button class="anbt active" onclick="adminTab('dash',this)">📊 Dashboard</button>
         <button class="anbt" onclick="adminTab('prods',this)">📦 Produtos</button>
         <button class="anbt" onclick="adminTab('opp',this)">🎯 Oportunidades</button>
+        <button class="anbt" onclick="adminTab('sales',this)">💰 Vendas</button>
         <button class="anbt" onclick="adminTab('report',this)">📈 Relatório</button>
         <button class="anbt" onclick="adminTab('ints',this)">💬 Interesses</button>
       </div>
@@ -526,6 +554,19 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
           <h3>💬 Clientes Interessados</h3>
           <div id="opp-customers"></div>
         </div>
+      </div>
+
+      <!-- SALES (Vendas) -->
+      <div class="asct" id="tab-sales">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem">
+          <h2 style="font-family:'Playfair Display',serif;font-size:1.3rem">💰 Gestão de Vendas</h2>
+        </div>
+        <div class="sales-kanban-tabs">
+          <button class="skbtn active" data-status="negociacao" onclick="setSalesFilter('negociacao',this)">🟡 Em Negociação <span id="cnt-negociacao" class="skcount"></span></button>
+          <button class="skbtn" data-status="vendido" onclick="setSalesFilter('vendido',this)">✅ Vendido <span id="cnt-vendido" class="skcount"></span></button>
+          <button class="skbtn" data-status="nao_vendido" onclick="setSalesFilter('nao_vendido',this)">❌ Não Vendido <span id="cnt-nao_vendido" class="skcount"></span></button>
+        </div>
+        <div class="sales-list" id="salesList"></div>
       </div>
 
       <!-- REPORT -->
@@ -615,6 +656,27 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
   </div>
 </div>
 
+<!-- SALE CONFIRMATION MODAL -->
+<div class="amovl" id="salemodal" onclick="closeSaleModalOut(event)">
+  <div class="amdlg">
+    <button class="amxbt" onclick="closeSaleModal()">×</button>
+    <h3 id="salemodal-title">Confirmar Venda</h3>
+    <div class="afld">
+      <label>Produto vendido</label>
+      <select id="sm-product"></select>
+    </div>
+    <div class="arow">
+      <div class="afld"><label>Quantidade vendida</label><input type="number" id="sm-qty" min="1" value="1"/></div>
+      <div class="afld"><label>Preço final (R$)</label><input type="number" id="sm-price" step="0.01" min="0"/></div>
+    </div>
+    <div class="afld"><label>Observação (opcional)</label><input type="text" id="sm-note" placeholder="Ex: deu desconto de R$10"/></div>
+    <div class="aacc">
+      <button class="bcncl" onclick="closeSaleModal()">Cancelar</button>
+      <button class="bsave" id="smSaveBtn" onclick="confirmSale()">✅ Confirmar Venda</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -662,7 +724,7 @@ async function deleteProdDB(id) {
 }
 
 async function getInterests(days=0) {
-  let path = '/interests?order=created_at.desc&select=*,products(name,price,cost_price,code)';
+  let path = '/interests?order=created_at.desc&select=*,products(name,price,cost_price,code,stock)';
   if (days > 0) {
     const since = new Date(Date.now() - days*86400000).toISOString();
     path += '&created_at=gte.' + since;
@@ -671,11 +733,18 @@ async function getInterests(days=0) {
 }
 
 async function insertInterest(data) {
-  return fetch(REST_URL + '/interests', { method:'POST', headers:SB_HDR, body:JSON.stringify(data) });
+  return fetch(REST_URL + '/interests', { method:'POST', headers:SB_HDR, body:JSON.stringify({ ...data, sale_status:'negociacao' }) });
 }
 
 async function clearInterestsDB() {
   return sbFetch('/interests?id=neq.00000000-0000-0000-0000-000000000000', { method:'DELETE' });
+}
+
+async function updateSaleStatus(interestId, status, extra={}) {
+  return sbFetch('/interests?id=eq.'+interestId, {
+    method:'PATCH',
+    body: JSON.stringify({ sale_status: status, status_updated_at: new Date().toISOString(), ...extra })
+  });
 }
 
 // ══════════════════════════════════════════
@@ -1054,6 +1123,7 @@ function adminTab(name,btn){
   if(name==='dash')   renderDash();
   if(name==='prods')  renderPmGrid();
   if(name==='opp')    renderOpportunities();
+  if(name==='sales')  renderSales();
   if(name==='report') renderReport(activePeriod);
   if(name==='ints')   renderAllInts();
 }
@@ -1271,6 +1341,123 @@ async function renderOpportunities(){
     : '<p style="padding:1.5rem;color:var(--mu);font-size:.82rem">Nenhum cliente identificado neste período/produto.</p>';
 }
 
+// ── GESTÃO DE VENDAS ──
+let salesFilter='negociacao';
+let allInterestsCache=[];
+
+function setSalesFilter(status,btn){
+  salesFilter=status;
+  document.querySelectorAll('.skbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSalesList();
+}
+
+async function renderSales(){
+  allInterestsCache = await getInterests(0);
+  ['negociacao','vendido','nao_vendido'].forEach(st=>{
+    const c = allInterestsCache.filter(i=>(i.sale_status||'negociacao')===st).length;
+    const el=document.getElementById('cnt-'+st);
+    if(el) el.textContent = c;
+  });
+  renderSalesList();
+}
+
+function renderSalesList(){
+  const list = allInterestsCache.filter(i=>(i.sale_status||'negociacao')===salesFilter);
+  const el = document.getElementById('salesList');
+  if(!list.length){
+    el.innerHTML = '<div class="sales-empty">Nenhum registro nesta categoria.</div>';
+    return;
+  }
+  el.innerHTML = list.map(i=>{
+    const custInfo = i.customer_name
+      ? '<span class="cust">'+i.customer_name+' · '+i.customer_whatsapp+'</span><br>'
+      : '<span style="color:var(--mu)">Cliente não identificado</span><br>';
+    const finalInfo = i.sale_status==='vendido'
+      ? '<br><b>Confirmado:</b> '+(i.final_qty||i.qty)+'x · '+fmt(i.final_price!=null?i.final_price:i.price)+(i.sale_note?' · <i>'+i.sale_note+'</i>':'')
+      : '';
+    let actions='';
+    if(i.sale_status==='negociacao' || !i.sale_status){
+      actions = '<button class="sbtn sold" onclick="openSaleModal(\''+i.id+'\')">✅ Marcar Vendido</button>'+
+                '<button class="sbtn unsold" onclick="markUnsold(\''+i.id+'\')">❌ Não Vendido</button>';
+    } else {
+      actions = '<button class="sbtn undo" onclick="undoSaleStatus(\''+i.id+'\')">↩️ Reabrir</button>'+
+                '<span class="sale-status-tag '+i.sale_status+'">'+(i.sale_status==='vendido'?'Vendido':'Não Vendido')+'</span>';
+    }
+    return '<div class="sale-card">'+
+      '<div class="sale-info">'+
+        '<div class="sale-product">'+i.product_name+'</div>'+
+        '<div class="sale-meta">'+custInfo+
+        '<b>Solicitado:</b> '+i.qty+'x · '+fmt(i.price)+' · '+(i.color||'—')+finalInfo+'<br>'+
+        '<span style="color:var(--mu);font-size:.72rem">'+new Date(i.created_at).toLocaleString('pt-BR')+'</span>'+
+        '</div>'+
+      '</div>'+
+      '<div class="sale-actions">'+actions+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+let saleModalInterestId=null;
+function openSaleModal(interestId){
+  saleModalInterestId=interestId;
+  const interest = allInterestsCache.find(i=>i.id===interestId);
+  if(!interest) return;
+  const sel=document.getElementById('sm-product');
+  sel.innerHTML = allProds.map(p=>'<option value="'+p.id+'"'+(p.id===interest.product_id?' selected':'')+'>'+p.name+' ('+p.code+')</option>').join('');
+  document.getElementById('sm-qty').value = interest.qty||1;
+  document.getElementById('sm-price').value = interest.price||0;
+  document.getElementById('sm-note').value='';
+  document.getElementById('salemodal').classList.add('open');
+}
+function closeSaleModal(){ document.getElementById('salemodal').classList.remove('open'); }
+function closeSaleModalOut(e){ if(e.target===document.getElementById('salemodal')) closeSaleModal(); }
+
+async function confirmSale(){
+  const interest = allInterestsCache.find(i=>i.id===saleModalInterestId);
+  if(!interest) return;
+  const productId = document.getElementById('sm-product').value;
+  const qty = parseInt(document.getElementById('sm-qty').value)||1;
+  const price = parseFloat(document.getElementById('sm-price').value)||0;
+  const note = document.getElementById('sm-note').value.trim();
+  const btn=document.getElementById('smSaveBtn');
+  btn.textContent='Salvando…'; btn.disabled=true;
+  try{
+    // discount stock
+    const prod = allProds.find(p=>p.id===productId);
+    if(prod){
+      const newStock = Math.max(0, prod.stock - qty);
+      await patchProd(productId, { stock: newStock });
+    }
+    await updateSaleStatus(saleModalInterestId, 'vendido', {
+      final_product_id: productId, final_qty: qty, final_price: price, sale_note: note||null
+    });
+    closeSaleModal();
+    showToast('Venda confirmada e estoque atualizado!','ok');
+    renderSales(); renderPmGrid(); renderProds();
+  }catch(e){
+    showToast('Erro ao confirmar venda.','err');
+  }finally{
+    btn.textContent='✅ Confirmar Venda'; btn.disabled=false;
+  }
+}
+
+async function markUnsold(interestId){
+  if(!confirm('Marcar este interesse como NÃO vendido?')) return;
+  await updateSaleStatus(interestId,'nao_vendido');
+  showToast('Marcado como não vendido.','ok');
+  renderSales();
+}
+
+async function undoSaleStatus(interestId){
+  const interest = allInterestsCache.find(i=>i.id===interestId);
+  if(interest && interest.sale_status==='vendido'){
+    if(!confirm('Reabrir esta venda? O estoque descontado NÃO será restaurado automaticamente — ajuste manualmente se necessário.')) return;
+  }
+  await updateSaleStatus(interestId,'negociacao',{final_product_id:null,final_qty:null,final_price:null,sale_note:null});
+  showToast('Status reaberto para negociação.','ok');
+  renderSales();
+}
+
 // ── REPORT ──
 let activePeriod=7;
 function setPeriod(d,btn){
@@ -1289,46 +1476,59 @@ async function renderReport(days){
   const totalClicks=ints.length;
   const totalRev=ints.reduce((a,i)=>a+(Number(i.price)*Number(i.qty)),0);
 
-  // per product stats
+  // real confirmed sales only
+  const soldInts = ints.filter(i=>i.sale_status==='vendido');
+  const totalRealRev = soldInts.reduce((a,i)=>a+(Number(i.final_price!=null?i.final_price:i.price)*Number(i.final_qty||i.qty)),0);
+  const negCount = ints.filter(i=>(i.sale_status||'negociacao')==='negociacao').length;
+  const unsoldCount = ints.filter(i=>i.sale_status==='nao_vendido').length;
+  const convRate = totalClicks>0 ? Math.round((soldInts.length/totalClicks)*100) : 0;
+
+  // per product stats — estimated (all interests) + real (sold only)
   const pmap={};
-  prods.forEach(p=>{pmap[p.id]={name:p.name,code:p.code,price:p.price,cost:p.cost_price||0,stock:p.stock,clicks:0,qty:0,revenue:0};});
+  prods.forEach(p=>{pmap[p.id]={name:p.name,code:p.code,price:p.price,cost:p.cost_price||0,stock:p.stock,clicks:0,qty:0,revenue:0,soldQty:0,soldRevenue:0,soldCost:0};});
   ints.forEach(i=>{
     if(i.product_id&&pmap[i.product_id]){
       pmap[i.product_id].clicks++;
       pmap[i.product_id].qty+=Number(i.qty);
       pmap[i.product_id].revenue+=Number(i.price)*Number(i.qty);
+      if(i.sale_status==='vendido'){
+        const fq = Number(i.final_qty||i.qty);
+        const fp = Number(i.final_price!=null?i.final_price:i.price);
+        pmap[i.product_id].soldQty += fq;
+        pmap[i.product_id].soldRevenue += fp*fq;
+        pmap[i.product_id].soldCost += (pmap[i.product_id].cost*fq);
+      }
     }
   });
   const pstats=Object.values(pmap).sort((a,b)=>b.clicks-a.clicks);
 
   const totalCostEst=pstats.reduce((a,p)=>a+(p.cost*p.qty),0);
   const totalProfitEst=totalRev-totalCostEst;
+  const totalRealCost=pstats.reduce((a,p)=>a+p.soldCost,0);
+  const totalRealProfit=totalRealRev-totalRealCost;
   const avgMargin=totalRev>0?Math.round((totalProfitEst/totalRev)*100):0;
   const bestProd=pstats[0];
 
   document.getElementById('reportcards').innerHTML=
-    '<div class="rep-card"><div class="rl">Total de Interesses</div><div class="rv gold">'+totalClicks+'</div><div class="rs">cliques no WhatsApp</div></div>'+
-    '<div class="rep-card"><div class="rl">Receita Estimada</div><div class="rv green">'+fmt(totalRev)+'</div><div class="rs">soma dos produtos clicados</div></div>'+
-    '<div class="rep-card"><div class="rl">Custo Estimado</div><div class="rv red">'+fmt(totalCostEst)+'</div><div class="rs">baseado no preço de custo</div></div>'+
-    '<div class="rep-card"><div class="rl">Lucro Estimado</div><div class="rv '+(totalProfitEst>=0?'green':'red')+'">'+fmt(totalProfitEst)+'</div><div class="rs">receita − custo</div></div>'+
-    '<div class="rep-card"><div class="rl">Margem Média</div><div class="rv '+(avgMargin>=30?'green':'orange')+'">'+avgMargin+'%</div><div class="rs">lucro / receita</div></div>'+
+    '<div class="rep-card"><div class="rl">Total de Interesses</div><div class="rv gold">'+totalClicks+'</div><div class="rs">'+negCount+' em negociação · '+unsoldCount+' não vendidos</div></div>'+
+    '<div class="rep-card"><div class="rl">Taxa de Conversão</div><div class="rv '+(convRate>=20?'green':'orange')+'">'+convRate+'%</div><div class="rs">'+soldInts.length+' vendas confirmadas</div></div>'+
+    '<div class="rep-card"><div class="rl">Receita REAL (confirmada)</div><div class="rv green">'+fmt(totalRealRev)+'</div><div class="rs">só vendas marcadas como vendido</div></div>'+
+    '<div class="rep-card"><div class="rl">Lucro REAL (confirmado)</div><div class="rv '+(totalRealProfit>=0?'green':'red')+'">'+fmt(totalRealProfit)+'</div><div class="rs">receita real − custo real</div></div>'+
+    '<div class="rep-card"><div class="rl">Receita Estimada</div><div class="rv" style="color:var(--mu)">'+fmt(totalRev)+'</div><div class="rs">se todo interesse virasse venda</div></div>'+
+    '<div class="rep-card"><div class="rl">Margem Média Estimada</div><div class="rv '+(avgMargin>=30?'green':'orange')+'">'+avgMargin+'%</div><div class="rs">lucro est. / receita est.</div></div>'+
     (bestProd?'<div class="rep-card"><div class="rl">Mais Procurado</div><div class="rv" style="font-size:1rem;color:var(--go)">'+bestProd.name+'</div><div class="rs">'+bestProd.clicks+' cliques</div></div>':'');
 
   document.getElementById('prodreport').innerHTML='<table>'+
-    '<thead><tr><th>Produto</th><th>Preço Venda</th><th>Preço Custo</th><th>Margem</th><th>Cliques</th><th>Qtd Interesse</th><th>Receita Est.</th><th>Lucro Est.</th><th>Estoque</th></tr></thead>'+
+    '<thead><tr><th>Produto</th><th>Preço</th><th>Custo</th><th>Cliques</th><th>Qtd Vendida (real)</th><th>Receita Real</th><th>Lucro Real</th><th>Estoque</th></tr></thead>'+
     '<tbody>'+pstats.map(p=>{
-      const margin=p.price>0&&p.cost>0?Math.round(((p.price-p.cost)/p.price)*100):null;
-      const profEst=p.revenue-(p.cost*p.qty);
       return '<tr>'+
         '<td><strong>'+p.name+'</strong><br><span style="color:var(--mu);font-size:.7rem">'+p.code+'</span></td>'+
         '<td style="color:var(--go)">'+fmt(p.price)+'</td>'+
         '<td style="color:var(--mu)">'+fmt(p.cost)+'</td>'+
-        '<td style="color:'+(margin===null?'var(--mu)':margin>=40?'var(--gr)':margin>=20?'var(--or)':'var(--re)')+'">'+
-          (margin===null?'—':margin+'%')+'</td>'+
         '<td style="font-weight:600;color:var(--go)">'+p.clicks+'</td>'+
-        '<td>'+p.qty+'</td>'+
-        '<td style="color:var(--gr)">'+fmt(p.revenue)+'</td>'+
-        '<td style="color:'+(profEst>=0?'var(--gr)':'var(--re)')+'">'+fmt(profEst)+'</td>'+
+        '<td style="color:var(--gr);font-weight:600">'+p.soldQty+'</td>'+
+        '<td style="color:var(--gr)">'+fmt(p.soldRevenue)+'</td>'+
+        '<td style="color:'+((p.soldRevenue-p.soldCost)>=0?'var(--gr)':'var(--re)')+'">'+fmt(p.soldRevenue-p.soldCost)+'</td>'+
         '<td style="color:'+(p.stock===0?'var(--re)':p.stock<=5?'var(--or)':'var(--gr)')+'">'+p.stock+'</td>'+
       '</tr>';
     }).join('')+'</tbody></table>';
@@ -1398,36 +1598,46 @@ function openAndPrint(html){
 async function exportPDF(){
   const [prods,ints]=await Promise.all([getProds(),getInterests(activePeriod)]);
   const pmap={};
-  prods.forEach(p=>{pmap[p.id]={name:p.name,code:p.code,price:p.price,cost:p.cost_price||0,stock:p.stock,clicks:0,qty:0,revenue:0};});
-  ints.forEach(i=>{if(i.product_id&&pmap[i.product_id]){pmap[i.product_id].clicks++;pmap[i.product_id].qty+=Number(i.qty);pmap[i.product_id].revenue+=Number(i.price)*Number(i.qty);}});
+  prods.forEach(p=>{pmap[p.id]={name:p.name,code:p.code,price:p.price,cost:p.cost_price||0,stock:p.stock,clicks:0,soldQty:0,soldRevenue:0,soldCost:0};});
+  ints.forEach(i=>{
+    if(i.product_id&&pmap[i.product_id]){
+      pmap[i.product_id].clicks++;
+      if(i.sale_status==='vendido'){
+        const fq=Number(i.final_qty||i.qty), fp=Number(i.final_price!=null?i.final_price:i.price);
+        pmap[i.product_id].soldQty+=fq;
+        pmap[i.product_id].soldRevenue+=fp*fq;
+        pmap[i.product_id].soldCost+=(pmap[i.product_id].cost*fq);
+      }
+    }
+  });
   const pstats=Object.values(pmap).sort((a,b)=>b.clicks-a.clicks);
 
   const totalClicks=ints.length;
-  const totalRev=ints.reduce((a,i)=>a+(Number(i.price)*Number(i.qty)),0);
-  const totalCost=pstats.reduce((a,p)=>a+(p.cost*p.qty),0);
-  const totalProfit=totalRev-totalCost;
+  const soldInts=ints.filter(i=>i.sale_status==='vendido');
+  const totalRealRev=pstats.reduce((a,p)=>a+p.soldRevenue,0);
+  const totalRealCost=pstats.reduce((a,p)=>a+p.soldCost,0);
+  const totalRealProfit=totalRealRev-totalRealCost;
+  const convRate = totalClicks>0?Math.round((soldInts.length/totalClicks)*100):0;
   const periodLabel = activePeriod===0?'Todo o período':'Últimos '+activePeriod+' dias';
 
   const kpis = '<div class="kpi-row">'+
     '<div class="kpi-card"><div class="kpi-label">Interesses</div><div class="kpi-value">'+totalClicks+'</div></div>'+
-    '<div class="kpi-card"><div class="kpi-label">Receita Estimada</div><div class="kpi-value">'+fmt(totalRev)+'</div></div>'+
-    '<div class="kpi-card"><div class="kpi-label">Custo Estimado</div><div class="kpi-value">'+fmt(totalCost)+'</div></div>'+
-    '<div class="kpi-card"><div class="kpi-label">Lucro Estimado</div><div class="kpi-value">'+fmt(totalProfit)+'</div></div>'+
+    '<div class="kpi-card"><div class="kpi-label">Taxa de Conversão</div><div class="kpi-value">'+convRate+'%</div></div>'+
+    '<div class="kpi-card"><div class="kpi-label">Receita Real</div><div class="kpi-value">'+fmt(totalRealRev)+'</div></div>'+
+    '<div class="kpi-card"><div class="kpi-label">Lucro Real</div><div class="kpi-value">'+fmt(totalRealProfit)+'</div></div>'+
   '</div>';
 
   const rows = pstats.map(p=>{
-    const margin = p.price>0&&p.cost>0 ? Math.round(((p.price-p.cost)/p.price)*100)+'%' : '—';
-    const profit = p.revenue-(p.cost*p.qty);
     return '<tr><td><b>'+p.name+'</b><br><span style="color:#888;font-size:9px">'+p.code+'</span></td>'+
-      '<td>'+fmt(p.price)+'</td><td>'+fmt(p.cost)+'</td><td>'+margin+'</td>'+
-      '<td>'+p.clicks+'</td><td>'+p.qty+'</td><td>'+fmt(p.revenue)+'</td>'+
-      '<td>'+fmt(profit)+'</td><td>'+p.stock+'</td></tr>';
+      '<td>'+fmt(p.price)+'</td><td>'+fmt(p.cost)+'</td>'+
+      '<td>'+p.clicks+'</td><td>'+p.soldQty+'</td><td>'+fmt(p.soldRevenue)+'</td>'+
+      '<td>'+fmt(p.soldRevenue-p.soldCost)+'</td><td>'+p.stock+'</td></tr>';
   }).join('');
 
   const body = '<div class="pdf-title">Relatório de Desempenho</div>'+
-    '<div class="pdf-subtitle">Período: '+periodLabel+'</div>'+
+    '<div class="pdf-subtitle">Período: '+periodLabel+' · Receita e lucro baseados em vendas CONFIRMADAS</div>'+
     kpis+
-    '<table><thead><tr><th>Produto</th><th>Preço Venda</th><th>Custo</th><th>Margem</th><th>Cliques</th><th>Qtd</th><th>Receita</th><th>Lucro</th><th>Estoque</th></tr></thead>'+
+    '<table><thead><tr><th>Produto</th><th>Preço</th><th>Custo</th><th>Cliques</th><th>Qtd Vendida</th><th>Receita Real</th><th>Lucro Real</th><th>Estoque</th></tr></thead>'+
     '<tbody>'+rows+'</tbody></table>';
 
   openAndPrint(pdfShell('Relatório de Desempenho - LUXOS Imports', body));
