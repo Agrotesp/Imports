@@ -266,6 +266,15 @@ footer a:hover{color:var(--go)}
 .ml-status.vendido{background:rgba(39,174,96,.15);color:var(--gr)}
 .ml-status.nao_vendido{background:rgba(192,57,43,.15);color:var(--re)}
 .ml-empty{font-size:.78rem;color:var(--mu);padding:1rem 0}
+
+/* REVIEW ADMIN */
+.rev-admin-card{background:var(--cd);border:1px solid var(--br);border-radius:6px;padding:1.1rem 1.3rem;margin-bottom:.8rem}
+.rev-admin-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}
+.rev-admin-stars{color:var(--go);font-size:1rem;letter-spacing:.06em}
+.rev-admin-text{font-size:.88rem;color:var(--wh);margin-bottom:.5rem;line-height:1.6}
+.rev-admin-meta{font-size:.74rem;color:var(--mu);margin-bottom:.7rem}
+.rev-admin-meta b{color:var(--go)}
+.rev-admin-actions{display:flex;gap:.5rem}
 .dcard{background:var(--cd);border:1px solid var(--br);border-radius:6px;padding:1.5rem}
 .dcard .dlbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--mu);margin-bottom:.5rem}
 .dcard .dval{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--go);line-height:1}
@@ -390,6 +399,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
       <a href="#categ">Categorias</a>
       <a href="#promo">Promoções</a>
       <a href="#" onclick="openMyList();return false">❤️ Minha Lista</a>
+      <a href="avaliacoes.html">⭐ Avaliações</a>
       <a href="https://wa.me/5579998346040" target="_blank" class="nwp">
         <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         WhatsApp
@@ -544,6 +554,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
         <button class="anbt" onclick="adminTab('sales',this)">💰 Vendas</button>
         <button class="anbt" onclick="adminTab('report',this)">📈 Relatório</button>
         <button class="anbt" onclick="adminTab('ints',this)">💬 Interesses</button>
+        <button class="anbt" onclick="adminTab('reviews',this)">⭐ Avaliações</button>
       </div>
       <div style="display:flex;align-items:center;gap:.8rem">
         <button onclick="closeAdmin()" style="background:none;border:none;color:var(--mu);font-size:.78rem;cursor:pointer">← Ver loja</button>
@@ -671,6 +682,18 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
           <button onclick="clearInterests()" style="background:none;border:1px solid var(--br);color:var(--mu);padding:.4rem .9rem;border-radius:3px;font-size:.75rem;cursor:pointer" onmouseover="this.style.borderColor='var(--re)';this.style.color='var(--re)'" onmouseout="this.style.borderColor='var(--br)';this.style.color='var(--mu)'">🗑 Limpar tudo</button>
         </div>
         <div class="atbw"><div id="alldiv"></div></div>
+      </div>
+
+      <!-- REVIEWS MODERATION -->
+      <div class="asct" id="tab-reviews">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem">
+          <h2 style="font-family:'Playfair Display',serif;font-size:1.3rem">⭐ Moderar Avaliações</h2>
+        </div>
+        <div class="sales-kanban-tabs">
+          <button class="skbtn active" data-status="pending" onclick="setReviewsFilter('pending',this)">🟡 Pendentes <span id="cnt-rev-pending" class="skcount"></span></button>
+          <button class="skbtn" data-status="approved" onclick="setReviewsFilter('approved',this)">✅ Aprovadas <span id="cnt-rev-approved" class="skcount"></span></button>
+        </div>
+        <div id="reviewsAdminList"></div>
       </div>
     </div>
   </div>
@@ -1385,6 +1408,7 @@ function adminTab(name,btn){
   if(name==='sales')  renderSales();
   if(name==='report') renderReport(activePeriod);
   if(name==='ints')   renderAllInts();
+  if(name==='reviews') renderReviewsAdmin();
 }
 
 // ── DASHBOARD ──
@@ -2268,6 +2292,67 @@ function renderMyListResults(favs, ints){
             '<span class="ml-status '+st+'">'+statusLabel[st]+'</span></div>';
         }).join('')
       : '<div class="ml-empty">Nenhum interesse registrado com este WhatsApp ainda.</div>');
+}
+
+// ══════════════════════════════════════════
+// ADMIN — MODERAÇÃO DE AVALIAÇÕES
+// ══════════════════════════════════════════
+let reviewsFilter='pending';
+let allReviewsCache=[];
+
+function setReviewsFilter(status,btn){
+  reviewsFilter=status;
+  document.querySelectorAll('#tab-reviews .skbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderReviewsList();
+}
+
+async function renderReviewsAdmin(){
+  allReviewsCache = await sbFetch('/reviews?order=created_at.desc&select=*');
+  const pending = allReviewsCache.filter(r=>!r.approved).length;
+  const approved = allReviewsCache.filter(r=>r.approved).length;
+  const elP = document.getElementById('cnt-rev-pending');
+  const elA = document.getElementById('cnt-rev-approved');
+  if(elP) elP.textContent = pending;
+  if(elA) elA.textContent = approved;
+  renderReviewsList();
+}
+
+function starsHtml(n){ let s=''; for(let i=1;i<=5;i++) s+=i<=n?'★':'☆'; return s; }
+
+function renderReviewsList(){
+  const el = document.getElementById('reviewsAdminList');
+  const list = allReviewsCache.filter(r=> reviewsFilter==='pending' ? !r.approved : r.approved);
+  if(!list.length){
+    el.innerHTML='<div class="sales-empty">Nenhuma avaliação '+(reviewsFilter==='pending'?'pendente':'aprovada')+' no momento.</div>';
+    return;
+  }
+  el.innerHTML = list.map(r=>{
+    const productLine = r.product_name ? '<span> · Produto: <b>'+r.product_name+'</b></span>' : '';
+    const actions = r.approved
+      ? '<button class="sbtn unsold" onclick="rejectReview(\''+r.id+'\')">🗑 Remover</button>'
+      : '<button class="sbtn sold" onclick="approveReview(\''+r.id+'\')">✅ Aprovar</button>'+
+        '<button class="sbtn unsold" onclick="rejectReview(\''+r.id+'\')">❌ Rejeitar</button>';
+    return '<div class="rev-admin-card">'+
+      '<div class="rev-admin-top"><span class="rev-admin-stars">'+starsHtml(r.rating)+'</span><span style="font-size:.72rem;color:var(--mu)">'+new Date(r.created_at).toLocaleString('pt-BR')+'</span></div>'+
+      '<div class="rev-admin-text">"'+r.comment+'"</div>'+
+      '<div class="rev-admin-meta"><b>'+r.customer_name+'</b> · '+r.customer_whatsapp+productLine+'</div>'+
+      '<div class="rev-admin-actions">'+actions+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+async function approveReview(id){
+  await sbFetch('/reviews?id=eq.'+id,{method:'PATCH',body:JSON.stringify({approved:true})});
+  showToast('Avaliação aprovada!','ok');
+  renderReviewsAdmin();
+}
+
+async function rejectReview(id){
+  if(!confirm('Remover esta avaliação?')) return;
+  await sbFetch('/reviews?id=eq.'+id,{method:'DELETE'});
+  showToast('Avaliação removida.','err');
+  renderReviewsAdmin();
 }
 
 // ══════════════════════════════════════════
