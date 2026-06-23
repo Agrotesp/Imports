@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>LUXOS Imports — Acessórios Banhados a Ouro</title>
+<title>ESTILIZOU — Moda & Personalizados</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bk:#0A0A0A;--sf:#141414;--cd:#1A1A1A;--br:#2A2A2A;
-  --go:#C9A84C;--gl:#F0D080;--gd:#8A6F2E;
-  --wh:#F5F0E8;--mu:#888;--wp:#25D366;
+  --bk:#0A0A0A;--sf:#111111;--cd:#181818;--br:#2A2A2A;
+  --go:#8BC34A;--gl:#A5D65E;--gd:#5D8A28;
+  --wh:#F5F5F5;--mu:#888;--wp:#25D366;
   --re:#C0392B;--gr:#27AE60;--or:#E67E22
 }
 html{scroll-behavior:smooth}
@@ -19,8 +19,10 @@ body{background:var(--bk);color:var(--wh);font-family:'Inter',sans-serif;font-si
 
 /* HEADER */
 header{position:sticky;top:0;z-index:100;background:rgba(10,10,10,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:72px}
-.logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;letter-spacing:.08em;color:var(--go);text-decoration:none;white-space:nowrap}
-.logo span{color:var(--wh);font-style:italic;font-weight:400}
+.logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;white-space:nowrap}
+.logo-icon{width:38px;height:38px;background:#0A0A0A;border:2px solid #8BC34A;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-icon span{font-family:'Inter',sans-serif;font-size:1.1rem;font-weight:900;color:#8BC34A;letter-spacing:-.05em;line-height:1}
+.logo-text{font-family:'Inter',sans-serif;font-size:1.15rem;font-weight:800;letter-spacing:.12em;color:var(--wh);text-transform:uppercase}
 nav{display:flex;gap:2rem;align-items:center}
 .nl{display:flex;gap:1.5rem;align-items:center}
 nav a{color:var(--mu);text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;transition:color .2s}
@@ -392,7 +394,10 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 <!-- ═══════════ STOREFRONT ═══════════ -->
 <div id="sfront">
 <header>
-  <a href="#" class="logo">LUXOS <span>Imports</span></a>
+  <a href="#" class="logo">
+    <div class="logo-icon"><span>E</span></div>
+    <span class="logo-text">ESTILIZOU</span>
+  </a>
   <nav>
     <div class="nl" id="navlinks">
       <a href="#catalog">Catálogo</a>
@@ -400,7 +405,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
       <a href="#promo">Promoções</a>
       <a href="#" onclick="openMyList();return false">❤️ Minha Lista</a>
       <a href="avaliacoes.html">⭐ Avaliações</a>
-      <a href="https://wa.me/5579998346040" target="_blank" class="nwp">
+      <a href="https://wa.me/5579998737632" target="_blank" class="nwp">
         <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         WhatsApp
       </a>
@@ -410,9 +415,9 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 </header>
 
 <section class="hero">
-  <div class="heb">Acessórios premium</div>
-  <h1>Elegância que <em>brilha</em> em cada detalhe</h1>
-  <p>Correntes, pulseiras e acessórios banhados a ouro selecionados para quem valoriza estilo e sofisticação.</p>
+  <div class="heb">Moda & Personalizados</div>
+  <h1>Seu estilo, sua <em>identidade</em></h1>
+  <p>Roupas masculinas, femininas, perfumes importados e personalizados. 6 anos de confiança e estilo para você.</p>
   <div class="ha">
     <a href="#catalog" class="btp">Ver Catálogo</a>
     <a href="#categ" class="bot">Explorar Coleções</a>
@@ -420,10 +425,10 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 </section>
 
 <div class="tbar">
-  <div class="titem"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Qualidade garantida</div>
+  <div class="titem"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>6 anos de confiança</div>
   <div class="titem"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Envio para todo o Brasil</div>
-  <div class="titem"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Atendimento via WhatsApp</div>
-  <div class="titem"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Resposta em até 1h</div>
+  <div class="titem"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Até 8x sem juros</div>
+  <div class="titem"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Atendimento via WhatsApp</div>
 </div>
 
 <section class="sec" id="catalog">
@@ -455,7 +460,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 </section>
 
 <div class="proban" id="promo">
-  <h2>🔥 Semana do Ouro — até <span style="color:var(--go)">40% OFF</span></h2>
+  <h2>🔥 Semana da Moda — até <span style="color:var(--go)">40% OFF</span></h2>
   <p>Promoção por tempo limitado. Aproveite antes que acabe o estoque.</p>
   <button class="btp" onclick="quickF('st','promo')">Ver promoções</button>
 </div>
@@ -468,11 +473,11 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 </section>
 
 <footer>
-  <div><h4>LUXOS Imports</h4><p>Acessórios banhados a ouro com qualidade e sofisticação para quem aprecia o melhor.</p><br/><a href="https://wa.me/5579998346040" target="_blank" style="color:var(--go);font-weight:600">📲 Falar no WhatsApp</a></div>
-  <div><h4>Links</h4><a href="#catalog">Catálogo</a><a href="#categ">Categorias</a><a href="#promo">Promoções</a></div>
-  <div><h4>Atendimento</h4><p>Segunda a sábado · 9h às 20h</p><p style="margin-top:.6rem">Respondemos rápido pelo WhatsApp!</p></div>
+  <div><h4>ESTILIZOU</h4><p>Moda masculina, feminina, personalizados e perfumes importados. 6 anos de confiança e estilo.</p><br/><a href="https://wa.me/5579998737632" target="_blank" style="color:var(--go);font-weight:600">📲 Falar no WhatsApp</a></div>
+  <div><h4>Links</h4><a href="#catalog">Catálogo</a><a href="#categ">Categorias</a><a href="#promo">Promoções</a><a href="avaliacoes.html">Avaliações</a></div>
+  <div><h4>Atendimento</h4><p>Segunda a sábado · 9h às 20h</p><p style="margin-top:.6rem">Respondemos rápido pelo WhatsApp!</p><p style="margin-top:.6rem">Parcelamos em até 8x sem juros</p></div>
 </footer>
-<div class="fbot">© 2025 LUXOS Imports — Todos os direitos reservados.<a href="#" onclick="openAdmin();return false" style="color:var(--br);margin-left:1rem;font-size:.65rem">⚙</a></div>
+<div class="fbot">© 2025 ESTILIZOU Moda & Personalizados — Todos os direitos reservados.<a href="#" onclick="openAdmin();return false" style="color:var(--br);margin-left:1rem;font-size:.65rem">⚙</a></div>
 </div>
 
 <!-- MINHA LISTA MODAL -->
@@ -533,8 +538,8 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 <div id="adpn">
   <div class="alog" id="adminlogin">
     <div class="lbox">
-      <div style="font-size:2rem;margin-bottom:.5rem">🔐</div>
-      <h2>Painel Admin</h2><p>LUXOS Imports — Área restrita</p>
+      <div style="font-size:2rem;margin-bottom:.5rem">👗</div>
+      <h2>Painel Admin</h2><p>ESTILIZOU — Área restrita</p>
       <div class="lfld"><label>E-mail</label><input type="email" id="luser" placeholder="seuemail@exemplo.com" onkeydown="if(event.key==='Enter')doLogin()"/></div>
       <div class="lfld"><label>Senha</label><input type="password" id="lpass" placeholder="••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
       <div class="lerr" id="lerr">Usuário ou senha incorretos.</div>
@@ -545,7 +550,10 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 
   <div class="awrp" id="adminwrap">
     <div class="ahdr">
-      <div class="alogo">LUXOS <span>Admin</span></div>
+      <div class="alogo" style="display:flex;align-items:center;gap:.5rem">
+        <div class="logo-icon" style="width:28px;height:28px"><span style="font-size:.85rem">E</span></div>
+        <span>ESTILIZOU <span style="color:var(--mu);font-size:.78rem;font-family:'Inter',sans-serif;font-weight:400;margin-left:.3rem">Admin</span></span>
+      </div>
       <div class="anav">
         <button class="anbt active" onclick="adminTab('dash',this)">📊 Dashboard</button>
         <button class="anbt" onclick="adminTab('prods',this)">📦 Produtos</button>
@@ -832,7 +840,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02)}
 // ══════════════════════════════════════════
 // CONFIG
 // ══════════════════════════════════════════
-const WPP_NUM    = '5579998346040';
+const WPP_NUM    = '5579998737632';
 const SB_URL     = 'https://ubpxspjedwzpxepfsypo.supabase.co';
 const SB_KEY     = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicHhzcGplZHd6cHhlcGZzeXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4MjE3NDYsImV4cCI6MjA5NzM5Nzc0Nn0.tiSUT07rqHBsq1k2o4npR2fk-NMpr0kibVwmARRON7E';
 const SB_HDR     = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
@@ -1315,7 +1323,7 @@ function shareProduct(pid){
   const p = allProds.find(x=>x.id===pid);
   if(!p) return;
   const url = window.location.origin + window.location.pathname + '?produto=' + pid;
-  const text = 'Olha que peça linda: *'+p.name+'* por '+fmt(p.price)+' na LUXOS Imports! 😍';
+  const text = 'Olha que peça incrível: *'+p.name+'* por '+fmt(p.price)+' na ESTILIZOU! 😍';
 
   // Build a small inline action sheet
   const existing = document.getElementById('shareSheet');
@@ -1861,10 +1869,10 @@ function pdfShell(title, bodyHtml){
   '.pdf-footer{margin-top:24px;padding-top:10px;border-top:1px solid #ddd;font-size:9px;color:#999;text-align:center}'+
   '@media print{.no-print{display:none}}'+
   '</style></head><body>'+
-  '<div class="pdf-header"><div class="pdf-brand">LUXOS <span>Imports</span></div>'+
+  '<div class="pdf-header"><div class="pdf-brand">ESTILIZOU <span>Moda</span></div>'+
   '<div class="pdf-meta">Relatório gerado em<br><b>'+today+'</b></div></div>'+
   bodyHtml+
-  '<div class="pdf-footer">LUXOS Imports — Acessórios Banhados a Ouro · Documento gerado automaticamente pelo sistema</div>'+
+  '<div class="pdf-footer">ESTILIZOU Moda & Personalizados · Documento gerado automaticamente pelo sistema</div>'+
   '</body></html>';
 }
 
@@ -1923,7 +1931,7 @@ async function exportPDF(){
     '<table><thead><tr><th>Produto</th><th>Preço</th><th>Custo</th><th>Cliques</th><th>Qtd Vendida</th><th>Receita Real</th><th>Lucro Real</th><th>Estoque</th></tr></thead>'+
     '<tbody>'+rows+'</tbody></table>';
 
-  openAndPrint(pdfShell('Relatório de Desempenho - LUXOS Imports', body));
+  openAndPrint(pdfShell('Relatório de Desempenho - ESTILIZOU', body));
 }
 
 async function exportOppPDF(){
@@ -1952,7 +1960,7 @@ async function exportOppPDF(){
     '<div class="pdf-title" style="font-size:14px;margin-top:10px">Clientes Interessados</div>'+
     '<table><thead><tr><th>Cliente</th><th>WhatsApp</th><th>Produto</th><th>Data</th></tr></thead><tbody>'+(custRows||'<tr><td colspan="4">Sem dados</td></tr>')+'</tbody></table>';
 
-  openAndPrint(pdfShell('Central de Oportunidades - LUXOS Imports', body));
+  openAndPrint(pdfShell('Central de Oportunidades - ESTILIZOU', body));
 }
 
 // ── ALL INTERESTS ──
