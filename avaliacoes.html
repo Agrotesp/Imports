@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Avaliações — LUXOS Imports</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<title>Avaliações — ESTILIZOU</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bk:#0A0A0A;--sf:#141414;--cd:#1A1A1A;--br:#2A2A2A;
-  --go:#C9A84C;--gl:#F0D080;--gd:#8A6F2E;
-  --wh:#F5F0E8;--mu:#888;--wp:#25D366;
+  --bk:#0A0A0A;--sf:#111111;--cd:#181818;--br:#2A2A2A;
+  --go:#8BC34A;--gl:#A5D65E;--gd:#5D8A28;
+  --wh:#F5F5F5;--mu:#888;--wp:#25D366;
   --re:#C0392B;--gr:#27AE60;--or:#E67E22
 }
 html{scroll-behavior:smooth}
@@ -18,9 +18,10 @@ body{background:var(--bk);color:var(--wh);font-family:'Inter',sans-serif;font-si
 ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bk)}::-webkit-scrollbar-thumb{background:var(--gd);border-radius:3px}
 
 header{position:sticky;top:0;z-index:100;background:rgba(10,10,10,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:72px}
-.logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;letter-spacing:.08em;color:var(--go);text-decoration:none;white-space:nowrap}
-.logo span{color:var(--wh);font-style:italic;font-weight:400}
-nav{display:flex;gap:1.5rem;align-items:center}
+.logo{display:flex;align-items:center;gap:.7rem;text-decoration:none;white-space:nowrap}
+.logo-icon{width:38px;height:38px;background:#0A0A0A;border:2px solid #8BC34A;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-icon span{font-family:'Inter',sans-serif;font-size:1.1rem;font-weight:900;color:#8BC34A;letter-spacing:-.05em;line-height:1}
+.logo-text{font-family:'Inter',sans-serif;font-size:1.15rem;font-weight:800;letter-spacing:.12em;color:var(--wh);text-transform:uppercase}
 nav a{color:var(--mu);text-decoration:none;font-size:.82rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:color .2s}
 nav a:hover{color:var(--go)}
 
@@ -40,7 +41,6 @@ nav a:hover{color:var(--go)}
 .stit{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,1.9rem);font-weight:700;margin-bottom:.5rem;text-align:center}
 .gline{width:48px;height:2px;background:var(--go);margin:.75rem auto 2rem}
 
-/* FORM */
 .review-form{background:var(--cd);border:1px solid var(--br);border-radius:6px;padding:2rem}
 .rfld{margin-bottom:1.1rem}
 .rfld label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--mu);margin-bottom:.4rem}
@@ -58,7 +58,6 @@ nav a:hover{color:var(--go)}
 .rsuccess h3{font-family:'Playfair Display',serif;color:var(--go);margin-bottom:.5rem}
 .rsuccess p{color:var(--mu);font-size:.88rem}
 
-/* REVIEWS LIST */
 .reviews-list{display:flex;flex-direction:column;gap:1rem}
 .review-card{background:var(--cd);border:1px solid var(--br);border-radius:6px;padding:1.3rem 1.5rem}
 .review-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:.6rem;flex-wrap:wrap}
@@ -67,7 +66,6 @@ nav a:hover{color:var(--go)}
 .review-text{font-size:.9rem;color:var(--wh);line-height:1.7;margin-bottom:.7rem}
 .review-author{font-size:.78rem;color:var(--go);font-weight:600}
 .review-product{font-size:.72rem;color:var(--mu);margin-top:.2rem}
-.review-product b{color:var(--mu)}
 .reviews-empty{text-align:center;color:var(--mu);font-size:.85rem;padding:3rem 1rem;border:1px dashed var(--br);border-radius:6px}
 .loading{display:flex;align-items:center;justify-content:center;padding:3rem;color:var(--mu);gap:.8rem}
 .spinner{width:18px;height:18px;border:2px solid var(--br);border-top-color:var(--go);border-radius:50%;animation:spin .7s linear infinite}
@@ -86,16 +84,19 @@ footer a{color:var(--go);text-decoration:none;font-size:.82rem}
 <body>
 
 <header>
-  <a href="index.html" class="logo">LUXOS <span>Imports</span></a>
+  <a href="estilizou.html" class="logo">
+    <div class="logo-icon"><span>E</span></div>
+    <span class="logo-text">ESTILIZOU</span>
+  </a>
   <nav>
-    <a href="index.html">← Voltar ao catálogo</a>
+    <a href="estilizou.html">← Voltar ao catálogo</a>
   </nav>
 </header>
 
 <section class="hero">
   <div class="heb">Depoimentos</div>
   <h1>O que nossos <em>clientes</em> dizem</h1>
-  <p>Avaliações reais de quem já comprou com a gente. Sua opinião também é bem-vinda.</p>
+  <p>Avaliações reais de quem já comprou com a gente. Sua opinião também é bem-vinda!</p>
 </section>
 
 <div class="summary-bar" id="summaryBar">
@@ -115,8 +116,8 @@ footer a{color:var(--go);text-decoration:none;font-size:.82rem}
       </div>
       <div class="rfld"><label>Seu nome (vai aparecer na avaliação)</label><input type="text" id="rv-name" placeholder="Ex: Maria Silva"/></div>
       <div class="rfld"><label>Seu WhatsApp</label><input type="text" id="rv-wpp" placeholder="Ex: 79 99999-9999"/></div>
-      <div class="rfld"><label>Produto que comprou (opcional)</label><input type="text" id="rv-product" placeholder="Ex: Corrente Veneziana 60cm"/></div>
-      <div class="rfld"><label>Seu comentário</label><textarea id="rv-comment" rows="4" placeholder="Conte como foi sua experiência…"></textarea></div>
+      <div class="rfld"><label>Produto que comprou (opcional)</label><input type="text" id="rv-product" placeholder="Ex: Calça Skinny TXC"/></div>
+      <div class="rfld"><label>Seu comentário</label><textarea id="rv-comment" rows="4" placeholder="Conte como foi sua experiência com a ESTILIZOU…"></textarea></div>
       <div class="rerr" id="rv-err">Preencha nota, nome, WhatsApp e comentário.</div>
       <button class="rsubmit" id="rv-submit" onclick="submitReview()">Enviar Avaliação</button>
     </div>
@@ -137,59 +138,50 @@ footer a{color:var(--go);text-decoration:none;font-size:.82rem}
 </section>
 
 <footer>
-  <a href="https://wa.me/5579998346040" target="_blank">📲 Falar no WhatsApp</a>
+  <a href="https://wa.me/5579998737632" target="_blank">📲 Falar no WhatsApp</a>
 </footer>
-<div class="fbot">© 2025 LUXOS Imports — Todos os direitos reservados.</div>
+<div class="fbot">© 2025 ESTILIZOU Moda & Personalizados — Todos os direitos reservados.</div>
 
 <script>
-const SB_URL  = 'https://ubpxspjedwzpxepfsypo.supabase.co';
-const SB_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicHhzcGplZHd6cHhlcGZzeXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4MjE3NDYsImV4cCI6MjA5NzM5Nzc0Nn0.tiSUT07rqHBsq1k2o4npR2fk-NMpr0kibVwmARRON7E';
-const SB_HDR  = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+const SB_URL   = 'https://ubpxspjedwzpxepfsypo.supabase.co';
+const SB_KEY   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVicHhzcGplZHd6cHhlcGZzeXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4MjE3NDYsImV4cCI6MjA5NzM5Nzc0Nn0.tiSUT07rqHBsq1k2o4npR2fk-NMpr0kibVwmARRON7E';
+const SB_HDR   = { 'apikey':SB_KEY, 'Authorization':'Bearer '+SB_KEY, 'Content-Type':'application/json', 'Prefer':'return=representation' };
 const REST_URL = SB_URL + '/rest/v1';
 
-async function sbFetch(path, opts={}) {
-  const res = await fetch(REST_URL + path, { headers: SB_HDR, ...opts });
-  if (!res.ok) { const e = await res.text(); throw new Error(e); }
-  const ct = res.headers.get('content-type')||'';
-  return ct.includes('json') ? res.json() : res.text();
+async function sbFetch(path, opts={}){
+  const res = await fetch(REST_URL+path,{headers:SB_HDR,...opts});
+  if(!res.ok){const e=await res.text();throw new Error(e);}
+  const ct=res.headers.get('content-type')||'';
+  return ct.includes('json')?res.json():res.text();
 }
 
-let selectedRating = 0;
+let selectedRating=0;
 document.querySelectorAll('#starPicker span').forEach(star=>{
-  star.addEventListener('click', ()=>{
-    selectedRating = parseInt(star.dataset.v);
-    updateStarPicker();
+  star.addEventListener('click',()=>{
+    selectedRating=parseInt(star.dataset.v);
+    document.querySelectorAll('#starPicker span').forEach(s=>{
+      s.classList.toggle('active',parseInt(s.dataset.v)<=selectedRating);
+    });
   });
 });
-function updateStarPicker(){
-  document.querySelectorAll('#starPicker span').forEach(s=>{
-    s.classList.toggle('active', parseInt(s.dataset.v) <= selectedRating);
-  });
-}
 
 async function submitReview(){
-  const name = document.getElementById('rv-name').value.trim();
-  const wpp = document.getElementById('rv-wpp').value.trim();
-  const product = document.getElementById('rv-product').value.trim();
-  const comment = document.getElementById('rv-comment').value.trim();
-  const errEl = document.getElementById('rv-err');
-
-  if(!selectedRating || !name || wpp.replace(/\D/g,'').length<8 || !comment){
-    errEl.style.display='block';
-    return;
+  const name=document.getElementById('rv-name').value.trim();
+  const wpp=document.getElementById('rv-wpp').value.trim();
+  const product=document.getElementById('rv-product').value.trim();
+  const comment=document.getElementById('rv-comment').value.trim();
+  const errEl=document.getElementById('rv-err');
+  if(!selectedRating||!name||wpp.replace(/\D/g,'').length<8||!comment){
+    errEl.style.display='block'; return;
   }
   errEl.style.display='none';
-
-  const btn = document.getElementById('rv-submit');
+  const btn=document.getElementById('rv-submit');
   btn.textContent='Enviando…'; btn.disabled=true;
   try{
-    await sbFetch('/reviews', {
-      method:'POST',
-      body: JSON.stringify({
-        customer_name:name, customer_whatsapp:wpp, rating:selectedRating,
-        comment, product_name: product||null, approved:false
-      })
-    });
+    await sbFetch('/reviews',{method:'POST',body:JSON.stringify({
+      customer_name:name,customer_whatsapp:wpp,rating:selectedRating,
+      comment,product_name:product||null,approved:false
+    })});
     document.getElementById('reviewFormFields').style.display='none';
     document.getElementById('reviewSuccess').style.display='block';
   }catch(e){
@@ -200,52 +192,40 @@ async function submitReview(){
   }
 }
 
-function starsHtml(n){
-  let s='';
-  for(let i=1;i<=5;i++) s += i<=n ? '★' : '☆';
-  return s;
-}
+function starsHtml(n){let s='';for(let i=1;i<=5;i++)s+=i<=n?'★':'☆';return s;}
 
 async function loadReviews(){
   try{
-    const reviews = await sbFetch('/reviews?approved=eq.true&order=created_at.desc&select=*');
-    renderSummary(reviews);
-    renderReviewsList(reviews);
-  }catch(e){
-    document.getElementById('summaryBar').innerHTML = '<span style="color:var(--mu);font-size:.85rem">Não foi possível carregar as avaliações.</span>';
-    document.getElementById('reviewsList').innerHTML = '<div class="reviews-empty">Não foi possível carregar as avaliações no momento.</div>';
-  }
-}
-
-function renderSummary(reviews){
-  const bar = document.getElementById('summaryBar');
-  if(!reviews.length){
-    bar.innerHTML = '<span style="color:var(--mu);font-size:.85rem">Seja o primeiro a avaliar a LUXOS Imports!</span>';
-    return;
-  }
-  const avg = reviews.reduce((a,r)=>a+r.rating,0)/reviews.length;
-  const rounded = Math.round(avg*10)/10;
-  bar.innerHTML =
-    '<div class="summary-score">'+rounded+'</div>'+
-    '<div><div class="summary-stars">'+starsHtml(Math.round(avg))+'</div>'+
-    '<div class="summary-count">'+reviews.length+' avaliaç'+(reviews.length===1?'ão':'ões')+'</div></div>';
-}
-
-function renderReviewsList(reviews){
-  const el = document.getElementById('reviewsList');
-  if(!reviews.length){
-    el.innerHTML = '<div class="reviews-empty">Ainda não há avaliações publicadas. Seja o primeiro a avaliar!</div>';
-    return;
-  }
-  el.innerHTML = reviews.map(r=>{
-    const productLine = r.product_name ? '<div class="review-product"><b>Produto:</b> '+r.product_name+'</div>' : '';
-    return '<div class="review-card">'+
-      '<div class="review-top"><span class="review-stars">'+starsHtml(r.rating)+'</span><span class="review-date">'+new Date(r.created_at).toLocaleDateString('pt-BR')+'</span></div>'+
+    const reviews=await sbFetch('/reviews?approved=eq.true&order=created_at.desc&select=*');
+    const bar=document.getElementById('summaryBar');
+    if(!reviews.length){
+      bar.innerHTML='<span style="color:var(--mu);font-size:.85rem">Seja o primeiro a avaliar a ESTILIZOU!</span>';
+    } else {
+      const avg=reviews.reduce((a,r)=>a+r.rating,0)/reviews.length;
+      bar.innerHTML='<div style="font-family:\'Playfair Display\',serif;font-size:2.2rem;font-weight:700;color:var(--go)">'+
+        (Math.round(avg*10)/10)+'</div>'+
+        '<div><div style="font-size:1.6rem;color:var(--go);letter-spacing:.1em">'+starsHtml(Math.round(avg))+'</div>'+
+        '<div style="font-size:.78rem;color:var(--mu);text-transform:uppercase;letter-spacing:.08em">'+
+        reviews.length+' avalia'+(reviews.length===1?'ção':'ções')+'</div></div>';
+    }
+    const el=document.getElementById('reviewsList');
+    if(!reviews.length){
+      el.innerHTML='<div class="reviews-empty">Ainda não há avaliações publicadas. Seja o primeiro!</div>';
+      return;
+    }
+    el.innerHTML=reviews.map(r=>
+      '<div class="review-card">'+
+      '<div class="review-top"><span class="review-stars">'+starsHtml(r.rating)+'</span>'+
+      '<span class="review-date">'+new Date(r.created_at).toLocaleDateString('pt-BR')+'</span></div>'+
       '<div class="review-text">"'+r.comment+'"</div>'+
       '<div class="review-author">'+r.customer_name+'</div>'+
-      productLine+
-    '</div>';
-  }).join('');
+      (r.product_name?'<div class="review-product">Produto: '+r.product_name+'</div>':'')+
+      '</div>'
+    ).join('');
+  }catch(e){
+    document.getElementById('summaryBar').innerHTML='<span style="color:var(--mu)">Não foi possível carregar.</span>';
+    document.getElementById('reviewsList').innerHTML='<div class="reviews-empty">Não foi possível carregar as avaliações.</div>';
+  }
 }
 
 loadReviews();
